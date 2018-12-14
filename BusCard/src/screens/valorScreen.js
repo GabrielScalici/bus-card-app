@@ -24,6 +24,7 @@ export default class homeScreen extends Component<Props> {
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
       valor: '32,00',
+      meia: false,
     };
   }
   render() {
@@ -31,12 +32,16 @@ export default class homeScreen extends Component<Props> {
       <View style={styles.container}>
 
         <ScrollView>
-          <Header> Valor </Header>
+          <Header> Recarregar </Header>
           <View style={styles.vw_valor}>
             <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
           </View>
 
-          <ScrollView style={styles.vw_recarregar}>
+          <Text style={styles.txt_ds}> Valor para recarregar </Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          >
             <ButtonDefault> R$ 10</ButtonDefault>
             <ButtonDefault> R$ 15</ButtonDefault>
             <ButtonDefault> R$ 20</ButtonDefault>
@@ -52,7 +57,7 @@ export default class homeScreen extends Component<Props> {
           </ScrollView>
 
           <View>
-            <Text style={styles.txt_ds}> Outro Valor: </Text>
+            <Text style={styles.txt_ds}> Outro Valor </Text>
           </View>
 
           <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
@@ -60,13 +65,13 @@ export default class homeScreen extends Component<Props> {
             <Switch
               barHeight={26}
               circleSize={24}
-              backgroundActive={colors.primariaAzul}
+              backgroundActive={colors.primaria}
               backgroundInactive={'#D0D0D0'}
               circleBorderWidth={0}
-              onValueChange={(value) => this.setState({ saveInfo: value })}
-              value={this.state.saveInfo}
+              onValueChange={(value) => this.setState({ meia: value })}
+              value={this.state.meia}
             />
-            <Text style={styles.subtitle}> Lembrar minhas informações </Text>
+            <Text style={styles.subtitle}> Utilizar cobrança de meia passagem </Text>
 
           </View>
 
@@ -84,14 +89,17 @@ const styles = StyleSheet.create({
   vw_recarregar: {
     flexDirection: "row",
     padding: metrics.padding,
+    margin: metrics.padding,
   },
   vw_valor: {
     justifyContent: 'center',
     alignItems: 'center',
+    margin: metrics.padding,
   },
   txt_ds: {
     fontSize: font.ds_label,
-    fontFamily: 'System'
+    fontFamily: 'System',
+    margin: metrics.half_padding,
   },
   txt_valor: {
     fontSize: 70,
@@ -105,5 +113,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: '#8093A5',
-},
+  },
 });

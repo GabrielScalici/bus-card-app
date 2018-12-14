@@ -41,6 +41,7 @@ export default class homeScreen extends Component<Props> {
             <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
           </TouchableOpacity>
 
+            <Text style={styles.txt_ds_valor}> Usar passagem </Text>
           <View style={styles.btn_default}>
             <ButtonDefault> Voltar </ButtonDefault>
             <ButtonDefault> Usar </ButtonDefault>

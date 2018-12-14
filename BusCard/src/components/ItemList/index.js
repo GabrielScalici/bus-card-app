@@ -18,7 +18,9 @@ export default class ItemList extends Component {
 
     render() {
         return (
-            <TouchableOpacity style={styles.container}>
+            <TouchableOpacity
+                onPress={this.props.onPress}
+                style={styles.container}>
                 {/* <LinearGradient colors={[colors.primaria, colors.secundaria]} style={styles.container}>
                     <Text style={styles.titulo}> {this.props.children} </Text>
                 </LinearGradient> */}

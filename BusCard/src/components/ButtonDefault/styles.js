@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
         justifyContent: 'center',
-        padding: metrics.padding,
+        padding: metrics.half_padding,
         height: 100,
         width: 150,
         borderRadius: 20,
