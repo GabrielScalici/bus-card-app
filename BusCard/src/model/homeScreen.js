@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
 import { metrics, font, colors } from '../styles';
 
@@ -41,22 +41,50 @@ export default class homeScreen extends Component<Props> {
             <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
           </TouchableOpacity>
 
-            <Text style={styles.txt_ds_valor}> Usar passagem </Text>
+          <Text style={styles.txt_ds_valor}> Usar passagem </Text>
           <View style={styles.btn_default}>
-            <ButtonDefault> Voltar </ButtonDefault>
-            <ButtonDefault> Usar </ButtonDefault>
+            <ButtonDefault
+              onPress={() => Alert.alert(
+                'Voltar uma passagem?',
+                'Você irá voltar o valor de uma passagem',
+                [
+                  { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
+                  {
+                    text: 'OK', onPress: () => {
+
+                    }
+                  },
+                ],
+                { cancelable: false }
+              )}
+            > Voltar </ButtonDefault>
+            <ButtonDefault
+              onPress={() => Alert.alert(
+                'Usar uma passagem?',
+                'Você irá gastar o valor de uma passagem',
+                [
+                  { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
+                  {
+                    text: 'OK', onPress: () => {
+
+                    }
+                  },
+                ],
+                { cancelable: false }
+              )}
+            > Usar </ButtonDefault>
           </View>
 
           <View style={styles.configuracoes}>
             <Text style={styles.txt_ds_valor}> Configurações </Text>
             <ItemList
-              icon={"ios-airplane"}
+              icon={"ios-card"}
               onPress={() => {
                 this.props.navigation.navigate('valorScreen');
               }}
             > Recarregar </ItemList>
             <ItemList
-              icon={"ios-airplane"}
+              icon={"ios-time"}
             > Configurar integração </ItemList>
           </View>
 

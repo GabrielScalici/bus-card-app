@@ -8,7 +8,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: metrics.padding,
-        height: 100
+        height: 100,
+        flexDirection: "row" 
+    },
+    container_back:{
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: metrics.padding,
+        height: 100,
+        flexDirection: "row" 
     },
     titulo:{
         fontSize: font.header,
