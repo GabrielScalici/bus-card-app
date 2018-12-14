@@ -6,12 +6,14 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import { metrics, font, colors } from '../styles';
 
 //COMPONENTES
 import Header from '../components/Header';
+import ItemList from '../components/ItemList';
+import ButtonDefault from '../components/ButtonDefault';
 
 type Props = {};
 export default class homeScreen extends Component<Props> {
@@ -20,20 +22,30 @@ export default class homeScreen extends Component<Props> {
 
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
-        valor: '32,00',
+      valor: '32,00',
     };
   }
   render() {
     return (
       <View style={styles.container}>
 
-        <Header> BusCard </Header>
+        <ScrollView>
+          <Header> BusCard </Header>
 
-        <View style={styles.container_valor}>
+          <View style={styles.container_valor}>
             <Text style={styles.txt_ds_valor}> Valor </Text>
             <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
-        </View>
+          </View>
 
+          <View style={styles.btn_default}>
+            <ButtonDefault> Voltar </ButtonDefault>
+            <ButtonDefault> Usar </ButtonDefault>
+          </View>
+          
+          <ItemList> Cadastrar </ItemList>
+          <ItemList> Cadastrar </ItemList>
+
+        </ScrollView>
       </View>
     );
   }
@@ -44,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF',
   },
-  container_valor:{
+  container_valor: {
     margin: metrics.padding,
     padding: metrics.padding,
     justifyContent: 'center',
@@ -54,12 +66,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
 
   },
-  txt_ds_valor:{
+  txt_ds_valor: {
     fontSize: font.ds_label,
   },
-  txt_valor:{
+  txt_valor: {
     fontSize: 60,
     color: colors.primaria,
+  },
+  btn_default: {
+    flexDirection: "row",
+    paddingVertical: metrics.padding,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
   }
 
 });

@@ -8,10 +8,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: metrics.padding,
-        height: 100
+        height: 60,
+        backgroundColor: colors.primaria,
+        marginVertical: 1,
+        flexDirection: "row",
+        justifyContent: 'space-between',
     },
     titulo:{
-        fontSize: font.header,
+        fontSize: font.item_list,
         fontFamily: 'System',
         color: colors.branco,
     }

@@ -12,6 +12,11 @@ export default{
     header: 30,
 
     ds_label: 12,
+
+    item_list: 20,
+    icon_list: 30,
+
+    txt_button: 25,
     
     
 }
