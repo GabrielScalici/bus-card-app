@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 
 import { metrics, font, colors } from '../styles';
 
@@ -32,20 +32,31 @@ export default class homeScreen extends Component<Props> {
         <ScrollView>
           <Header> BusCard </Header>
 
-          <View style={styles.container_valor}>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('valorScreen');
+            }}
+            style={styles.container_valor}>
             <Text style={styles.txt_ds_valor}> Valor </Text>
             <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
-          </View>
+          </TouchableOpacity>
 
           <View style={styles.btn_default}>
             <ButtonDefault> Voltar </ButtonDefault>
             <ButtonDefault> Usar </ButtonDefault>
           </View>
-          
+
           <View style={styles.configuracoes}>
-          <Text style={styles.txt_ds_valor}> Configurações </Text>
-          <ItemList> Recarregar </ItemList>
-          <ItemList> Cadastrar </ItemList>
+            <Text style={styles.txt_ds_valor}> Configurações </Text>
+            <ItemList
+              icon={"ios-airplane"}
+              onPress={() => {
+                this.props.navigation.navigate('valorScreen');
+              }}
+            > Recarregar </ItemList>
+            <ItemList
+              icon={"ios-airplane"}
+            > Configurar integração </ItemList>
           </View>
 
         </ScrollView>
@@ -83,8 +94,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
 
   },
-  configuracoes:{
-    
+  configuracoes: {
+
   }
 
 });
