@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
 import { Switch } from 'react-native-switch';
 
 import { metrics, font, colors } from '../styles';

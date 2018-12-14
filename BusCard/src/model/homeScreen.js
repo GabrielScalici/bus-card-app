@@ -75,19 +75,6 @@ export default class homeScreen extends Component<Props> {
             > Usar </ButtonDefault>
           </View>
 
-          <View style={styles.configuracoes}>
-            <Text style={styles.txt_ds_valor}> Configurações </Text>
-            <ItemList
-              icon={"ios-card"}
-              onPress={() => {
-                this.props.navigation.navigate('valorScreen');
-              }}
-            > Recarregar </ItemList>
-            <ItemList
-              icon={"ios-time"}
-            > Configurar integração </ItemList>
-          </View>
-
         </ScrollView>
       </View>
     );
