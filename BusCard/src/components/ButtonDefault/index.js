@@ -17,11 +17,11 @@ export default class ButtonDefault extends Component {
 
     render() {
         return (
-            <View>
+            <TouchableOpacity>
                 <LinearGradient colors={[colors.primaria, colors.secundaria]} style={styles.container}>
                     <Text style={styles.titulo}> {this.props.children} </Text>
                 </LinearGradient>
-            </View>
+            </TouchableOpacity>
         );
 
     }

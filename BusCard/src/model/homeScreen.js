@@ -42,8 +42,11 @@ export default class homeScreen extends Component<Props> {
             <ButtonDefault> Usar </ButtonDefault>
           </View>
           
+          <View style={styles.configuracoes}>
+          <Text style={styles.txt_ds_valor}> Configurações </Text>
+          <ItemList> Recarregar </ItemList>
           <ItemList> Cadastrar </ItemList>
-          <ItemList> Cadastrar </ItemList>
+          </View>
 
         </ScrollView>
       </View>
@@ -79,6 +82,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
 
+  },
+  configuracoes:{
+    
   }
 
 });
