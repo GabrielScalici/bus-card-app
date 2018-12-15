@@ -17,6 +17,7 @@ import { metrics, font, colors } from '../styles';
 import homeScreen from '../model/homeScreen';
 import configScreen from '../model/configScreen';
 
+import valorScreen from '../screens/valorScreen';
 
 export default TabNavigator({
     Home: { screen: homeScreen },
@@ -44,7 +45,7 @@ export default TabNavigator({
             inactiveTintColor: colors.cinza_escuro,
             style: {
                 backgroundColor: colors.cinza,
-                height: 60,
+                height: 50,
             },
             labelStyle: {
                 fontSize: font.ds_label,

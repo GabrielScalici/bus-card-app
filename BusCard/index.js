@@ -6,4 +6,4 @@ import {name as appName} from './app.json';
 
 console.disableYellowBox = true;
 
-AppRegistry.registerComponent(appName, () => Tab);
+AppRegistry.registerComponent(appName, () => App);

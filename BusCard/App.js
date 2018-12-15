@@ -22,13 +22,14 @@ import valorScreen from './src/screens/valorScreen';
 
 const Nav = StackNavigator({
     homeScreen: { screen: homeScreen },
+    configScreen: { screen: configScreen },
     valorScreen: { screen: valorScreen },
     tab: { screen: tab },
 }, {
     // Default config for all screens
     headerMode: 'none',
     //title: 'Main',
-    initialRouteName: 'homeScreen',
+    initialRouteName: 'tab',
 });
 
 export default Nav

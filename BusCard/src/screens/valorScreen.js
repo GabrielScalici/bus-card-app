@@ -31,11 +31,11 @@ export default class homeScreen extends Component<Props> {
     return (
       <View style={styles.container}>
 
+        <Header
+          back
+          onPress={() => this.props.navigation.goBack(null)}
+        > Recarregar </Header>
         <ScrollView>
-          <Header
-            back
-            onPress={() => this.props.navigation.goBack(null)}
-          > Recarregar </Header>
 
           <View style={styles.vw_valor}>
             <Text style={styles.txt_ds}> Total </Text>
@@ -81,7 +81,7 @@ export default class homeScreen extends Component<Props> {
           </View>
 
         </ScrollView>
-      </View>
+      </View >
     );
   }
 }
