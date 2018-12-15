@@ -17,6 +17,10 @@ export default{
     icon_list: 30,
 
     txt_button: 25,
+
+    btn_pequeno: 12,
+    btn_medio: 16,
+    btn_grande: 20,
     
     
 }

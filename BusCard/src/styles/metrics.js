@@ -1,5 +1,5 @@
 /**
- * FRM - Esiga
+ * BUSCARD
  * 
  * Autor: Gabriel Henrique Campos Scalici
  * 
@@ -17,6 +17,9 @@ export default {
     btn_padding: 6,
     btn_rad: 10.5,
     radio: 20,
+
+    text_button_radius: 20,
+    text_button_padding: 4,
 
 
     ...Platform.select({

@@ -45,19 +45,26 @@ export default class homeScreen extends Component<Props> {
           <Text style={styles.txt_ds_valor}> Usar passagem </Text>
           <View style={styles.btn_default}>
             <ButtonDefault
-              onPress={() => Alert.alert(
-                'Voltar uma passagem?',
-                'Você irá voltar o valor de uma passagem',
-                [
-                  { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
-                  {
-                    text: 'OK', onPress: () => {
+              onPress={() => {
+                Alert.alert(
+                  'Voltar uma passagem?',
+                  'Você irá voltar o valor de uma passagem',
+                  [
+                    {
+                      text: 'Cancelar', onPress: () => {
 
-                    }
-                  },
-                ],
-                { cancelable: false }
-              )}
+                      }, style: 'cancel'
+                    },
+                    {
+                      text: 'OK', onPress: () => {
+
+                      }
+                    },
+                  ],
+                  { cancelable: false }
+                )
+              }
+              }
             > Voltar </ButtonDefault>
             <ButtonDefault
               onPress={() => Alert.alert(
@@ -72,7 +79,8 @@ export default class homeScreen extends Component<Props> {
                   },
                 ],
                 { cancelable: false }
-              )}
+              )
+              }
             > Usar </ButtonDefault>
           </View>
 
