@@ -1,5 +1,5 @@
 /**
- * FRM - Esiga
+ * BusCard
  * 
  * Autor: Gabriel Henrique Campos Scalici
  * 
@@ -9,8 +9,8 @@
 
 export default {
 
-    primaria: '#264e70',
-    secundaria: '#679186',
+    primaria: '#2b3595',
+    secundaria: '#e14594',
     terciaria: '#ffebd3',
 
     error: '#B00020',

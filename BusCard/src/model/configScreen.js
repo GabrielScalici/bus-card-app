@@ -29,22 +29,23 @@ export default class homeScreen extends Component<Props> {
     return (
       <View style={styles.container}>
 
+        <Header> Configurações </Header>
+
         <ScrollView>
-          <Header> Configurações </Header>
 
           <View style={styles.configuracoes}>
             <ItemList
               icon={"ios-cash"}
             > Configurar Preços </ItemList>
             <ItemList
+              icon={"ios-time"}
+            > Configurar integração </ItemList>
+            <ItemList
               icon={"ios-card"}
               onPress={() => {
                 this.props.navigation.navigate('valorScreen');
               }}
             > Recarregar </ItemList>
-            <ItemList
-              icon={"ios-time"}
-            > Configurar integração </ItemList>
           </View>
 
         </ScrollView>

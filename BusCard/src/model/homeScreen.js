@@ -29,8 +29,8 @@ export default class homeScreen extends Component<Props> {
     return (
       <View style={styles.container}>
 
+        <Header> BusCard </Header>
         <ScrollView>
-          <Header> BusCard </Header>
 
           <TouchableOpacity
             onPress={() => {
@@ -39,6 +39,7 @@ export default class homeScreen extends Component<Props> {
             style={styles.container_valor}>
             <Text style={styles.txt_ds_valor}> Valor </Text>
             <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
+            <Text style={styles.txt_ds_valor}> Clique para recarregar </Text>
           </TouchableOpacity>
 
           <Text style={styles.txt_ds_valor}> Usar passagem </Text>
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
   },
   txt_ds_valor: {
     fontSize: font.ds_label,
+    color: colors.primaria,
   },
   txt_valor: {
     fontSize: 60,

@@ -20,7 +20,7 @@ export default class Header extends Component {
         if (this.props.back) {
             return (
                 <View>
-                    <LinearGradient colors={[colors.primaria, colors.secundaria]} style={styles.container_back}>
+                    <LinearGradient colors={[colors.secundaria, colors.primaria]} style={styles.container_back}>
                         <TouchableOpacity
                             onPress={this.props.onPress}
                         >
@@ -34,7 +34,7 @@ export default class Header extends Component {
         } else {
             return (
                 <View>
-                    <LinearGradient colors={[colors.primaria, colors.secundaria]} style={styles.container}>
+                    <LinearGradient colors={[colors.secundaria, colors.primaria]} style={styles.container}>
                         <Text style={styles.titulo}> {this.props.children} </Text>
                     </LinearGradient>
                 </View>
