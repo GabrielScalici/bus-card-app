@@ -25,40 +25,28 @@ export default class precosScreen extends Component<Props> {
 
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
-      valor: 0,
+      //valor: 0,
       valor_digitado: 0,
       meia: false,
+      passagem: 0,
+      pago: 0,
     };
   }
   componentDidMount() {
-    AsyncStorage.getItem('@SALDO').then((value) => {
+    AsyncStorage.getItem('@PASSAGEM').then((value) => {
       if (value) {
-        this.setState({ valor: parseFloat(value) });
+        this.setState({ passagem: parseFloat(value) });
       } else {
-        this.setState({ valor: 0 });
+        this.setState({ passagem: 0 });
       }
     });
-  }
-
-  saveValue = async (value) => {
-    var total = parseFloat(this.state.valor) + parseFloat(value);
-    this.setState({ valor: total });
-    Alert.alert(
-      'Recarga efetuada!',
-      'Você acabou de recarregar seu cartão',
-      [
-        {
-          text: 'OK', onPress: () => {
-            try {
-              AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
-            } catch (error) {
-              console.log(error)
-            }
-          }
-        },
-      ],
-      { cancelable: false }
-    )
+    AsyncStorage.getItem('@PAGO').then((value) => {
+      if (value) {
+        this.setState({ pago: parseFloat(value) });
+      } else {
+        this.setState({ pago: 0 });
+      }
+    });
   }
 
   render() {
@@ -68,69 +56,75 @@ export default class precosScreen extends Component<Props> {
         <Header
           back
           onPress={() => this.props.navigation.goBack(null)}
-        > Recarregar </Header>
+        > Preços </Header>
         <ScrollView>
 
           <View style={styles.vw_valor}>
-            <Text style={styles.txt_ds}> Total </Text>
-            <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
+            <Text style={styles.txt_ds}> Valor da passagem: </Text>
+            <Text style={styles.txt_valor}> R$ {this.state.passagem} </Text>
           </View>
 
-          <Text style={styles.txt_ds}> Valor para recarregar </Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={{ marginVertical: metrics.padding }}
-          >
-            <ButtonDefault
-              onPress={() => this.saveValue('10')}
-            > R$ 10</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('15')}
-            > R$ 15</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('20')}
-            > R$ 20</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('25')}
-            > R$ 25</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('30')}
-            > R$ 30</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('40')}
-            > R$ 40</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('50')}
-            > R$ 50</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('60')}
-            > R$ 60</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('70')}
-            > R$ 70</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('80')}
-            > R$ 80</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('90')}
-            > R$ 90</ButtonDefault>
-            <ButtonDefault
-              onPress={() => this.saveValue('100')}
-            > R$ 100</ButtonDefault>
-          </ScrollView>
+          <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
+
+            <Switch
+              barHeight={26}
+              circleSize={24}
+              backgroundActive={colors.primaria}
+              backgroundInactive={'#D0D0D0'}
+              circleBorderWidth={0}
+              onValueChange={(value) => {
+                if (this.state.passagem === 0) {
+                  Alert.alert(
+                    'Digite o valor da passagem inteira!',
+                    'Primeiro digite o valor da passagem para que possamos fazer as contas de meia passagem!',
+                    [
+                      {
+                        text: 'OK', onPress: () => {
+                        }
+                      },
+                    ],
+                    { cancelable: false }
+                  )
+                } else {
+                  this.setState({ meia: value });
+                  if (this.state.meia) {
+                    var total = parseFloat(this.state.passagem) / 2;
+                    this.setState({ pago: total});
+                    Alert.alert(
+                      'Passagem meia adicionada!',
+                      'Os gastos serão contados como meia passagem!',
+                      [
+                        {
+                          text: 'OK', onPress: () => {
+                            AsyncStorage.setItem('@PAGO', JSON.stringify(this.state.pago));
+                          }
+                        },
+                      ],
+                      { cancelable: false }
+                    )
+                  }
+
+                }
+
+              }}
+              value={this.state.meia}
+              keyboardType={'numeric'}
+            />
+            <Text style={styles.subtitle}> Utilizar cobrança de meia passagem </Text>
+
+          </View>
 
           <View>
-            <Text style={styles.txt_ds}> Outro Valor </Text>
+            <Text style={styles.txt_ds}> Alterar valor para a passagem </Text>
           </View>
 
           <View style={styles.container_outro_valor}>
             <View style={{ flexDirection: "row", justifyContent: 'center' }}>
 
-              <Icon style={styles.icon} color={colors.primaria} name={"ios-cash"} />
+              <Icon style={styles.icon} color={colors.primaria} name={"ios-calculator"} />
 
               <TextInput
-                placeholder="Digite o valor a ser recarregado"
+                placeholder="Digite o novo valor de passagem"
                 placeholderTextColor='white'
                 style={styles.txt_placeholder}
                 underlineColorAndroid={colors.primaria}
@@ -150,16 +144,16 @@ export default class precosScreen extends Component<Props> {
               color={colors.primaria}
               onPress={() => {
                 if (this.state.valor_digitado > 0) {
-                  var total = parseFloat(this.state.valor) + parseFloat(this.state.valor_digitado);
-                  this.setState({ valor: total });
+                  var total = parseFloat(this.state.valor_digitado);
+                  this.setState({ passagem: total });
                   Alert.alert(
-                    'Recarga efetuada!',
-                    'Você acabou de recarregar seu cartão',
+                    'Preço cadastrado!',
+                    'O preço da passagem foi atualizado',
                     [
                       {
                         text: 'OK', onPress: () => {
                           try {
-                            AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                            AsyncStorage.setItem('@PASSAGEM', JSON.stringify(this.state.passagem));
                           } catch (error) {
                             console.log(error)
                           }
@@ -170,7 +164,7 @@ export default class precosScreen extends Component<Props> {
                   )
                 } else {
                   Alert.alert(
-                    'Digite um valor para ser recarregado!',
+                    'Digite o preço da passagem!',
                     'Pode usar também os centavos',
                     [
                       {
@@ -183,49 +177,7 @@ export default class precosScreen extends Component<Props> {
                   )
                 }
               }}>
-              SALVAR RECARGA
-          </ButtonText>
-          </View>
-
-          <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
-
-            <Switch
-              barHeight={26}
-              circleSize={24}
-              backgroundActive={colors.primaria}
-              backgroundInactive={'#D0D0D0'}
-              circleBorderWidth={0}
-              onValueChange={(value) => this.setState({ meia: value })}
-              value={this.state.meia}
-              keyboardType={'numeric'}
-            />
-            <Text style={styles.subtitle}> Utilizar cobrança de meia passagem </Text>
-
-          </View>
-
-          <View
-            style={styles.container_zerar}>
-            <Text style={styles.txt_ds_zerar}> Zerar seu saldo?</Text>
-            <ButtonText
-              outline
-              color={'white'}
-              onPress={() => {
-                Alert.alert(
-                  'Deseja zerar o saldo do seu cartão?',
-                  'Esta operação não poderá ser desfeita depois de confirmada.',
-                  [
-                    { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
-                    {
-                      text: 'OK', onPress: () => {
-                        this.setState({ valor: 0 });
-                        AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
-                      }
-                    },
-                  ],
-                  { cancelable: false }
-                )
-              }}>
-              ZERAR O SALDO DO CARTÃO
+              SALVAR PREÇO
           </ButtonText>
           </View>
 

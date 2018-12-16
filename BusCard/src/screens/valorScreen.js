@@ -7,7 +7,6 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, ScrollView, Alert, TextInput, AsyncStorage } from 'react-native';
-import { Switch } from 'react-native-switch';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { metrics, font, colors } from '../styles';
@@ -185,22 +184,6 @@ export default class valorScreen extends Component<Props> {
               }}>
               SALVAR RECARGA
           </ButtonText>
-          </View>
-
-          <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
-
-            <Switch
-              barHeight={26}
-              circleSize={24}
-              backgroundActive={colors.primaria}
-              backgroundInactive={'#D0D0D0'}
-              circleBorderWidth={0}
-              onValueChange={(value) => this.setState({ meia: value })}
-              value={this.state.meia}
-              keyboardType={'numeric'}
-            />
-            <Text style={styles.subtitle}> Utilizar cobrança de meia passagem </Text>
-
           </View>
 
           <View

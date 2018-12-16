@@ -39,8 +39,8 @@ export default class splashScreen extends Component<Props> {
                 </View>
 
                 <View style={{justifyContent:'flex-end', flex:1}}>
+                    <Text style={styles.subtitle_big}> Gabriel Henrique Campos Scalici </Text>
                     <Text style={styles.subtitle}> Versão 1.0.0 </Text>
-                    <Text style={styles.subtitle}> Gabriel Henrique Campos Scalici </Text>
                 </View>
             </View>
 
@@ -64,6 +64,12 @@ const styles = StyleSheet.create({
     },
     subtitle:{
         fontSize: 10,
+        textAlign: 'center',
+        margin: 5,
+        color: colors.primaria,
+    },
+    subtitle_big:{
+        fontSize: 20,
         textAlign: 'center',
         margin: 5,
         color: colors.primaria,

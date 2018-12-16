@@ -36,6 +36,9 @@ export default class configScreen extends Component<Props> {
           <View style={styles.configuracoes}>
             <ItemList
               icon={"ios-cash"}
+              onPress={() => {
+                this.props.navigation.navigate('precosScreen');
+              }}
             > Configurar Preços </ItemList>
             <ItemList
               icon={"ios-time"}

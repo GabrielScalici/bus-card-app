@@ -23,8 +23,16 @@ export default class homeScreen extends Component<Props> {
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
       valor: '0',
-      passagem: '0'
+      pago: 0,
     };
+
+      AsyncStorage.getItem('@PAGO').then((value) => {
+      if(value){
+        this.setState({ pago: parseFloat(value) });
+      }else{
+        this.setState({ pago: 0 });
+      }
+    });
   }
 
   componentDidMount() {
@@ -35,13 +43,13 @@ export default class homeScreen extends Component<Props> {
         this.setState({ valor: 0 });
       }
     });
-    AsyncStorage.getItem('@PASSAGEM').then((value) => {
-      if(value){
-        this.setState({ passagem: parseFloat(value) });
-      }else{
-        this.setState({ passagem: 0 });
-      }
-    });
+    // AsyncStorage.getItem('@PAGO').then((value) => {
+    //   if(value){
+    //     this.setState({ pago: parseFloat(value) });
+    //   }else{
+    //     this.setState({ pago: 0 });
+    //   }
+    // });
     
   }
   
@@ -53,13 +61,13 @@ export default class homeScreen extends Component<Props> {
         this.setState({ valor: 0 });
       }
     });
-    AsyncStorage.getItem('@PASSAGEM').then((value) => {
-      if(value){
-        this.setState({ passagem: parseFloat(value) });
-      }else{
-        this.setState({ passagem: 0 });
-      }
-    });
+    // AsyncStorage.getItem('@PAGO').then((value) => {
+    //   if(value){
+    //     this.setState({ pago: parseFloat(value) });
+    //   }else{
+    //     this.setState({ pago: 0 });
+    //   }
+    // });
 
   }
 
@@ -75,10 +83,11 @@ export default class homeScreen extends Component<Props> {
               this.props.navigation.navigate('valorScreen');
             }}
             style={styles.container_valor}>
-            <Text style={styles.txt_ds_valor}> Valor </Text>
+            <Text style={styles.txt_ds_valor}> Valor total no cartão </Text>
             <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
             <Text style={styles.txt_ds_valor}> Clique para recarregar </Text>
           </TouchableOpacity>
+
 
           <Text style={styles.txt_ds_valor}> Usar passagem </Text>
           <View style={styles.btn_default}>
@@ -122,6 +131,16 @@ export default class homeScreen extends Component<Props> {
             > Usar </ButtonDefault>
           </View>
 
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('precosScreen');
+            }}
+            style={styles.container_valor}>
+            <Text style={styles.txt_ds_valor}> Valor pago na passagem </Text>
+            <Text style={styles.txt_pago}> R$ {this.state.pago} </Text>
+            <Text style={styles.txt_ds_valor}> Clique para alterar o preço </Text>
+          </TouchableOpacity>
+
         </ScrollView>
       </View>
     );
@@ -149,6 +168,10 @@ const styles = StyleSheet.create({
   txt_valor: {
     fontSize: 60,
     color: colors.primaria,
+  },
+  txt_pago: {
+    fontSize: 60,
+    color: colors.secundaria,
   },
   btn_default: {
     flexDirection: "row",
