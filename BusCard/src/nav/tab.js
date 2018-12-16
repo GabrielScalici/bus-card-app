@@ -45,7 +45,7 @@ export default TabNavigator({
             inactiveTintColor: colors.cinza_escuro,
             style: {
                 backgroundColor: colors.cinza,
-                height: 50,
+                height: 65,
             },
             labelStyle: {
                 fontSize: font.ds_label,

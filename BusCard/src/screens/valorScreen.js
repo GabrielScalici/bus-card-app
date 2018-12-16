@@ -72,7 +72,7 @@ export default class valorScreen extends Component<Props> {
 
           <View style={styles.vw_valor}>
             <Text style={styles.txt_ds}> Total </Text>
-            <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
+            <Text style={styles.txt_valor}> R$ {parseFloat(this.state.valor).toFixed(2)}  </Text>
           </View>
 
           <Text style={styles.txt_ds}> Valor para recarregar </Text>

@@ -22,7 +22,7 @@ export default class homeScreen extends Component<Props> {
 
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
-      valor: '0',
+      valor: 0,
       pago: 0,
     };
   }
@@ -45,22 +45,15 @@ export default class homeScreen extends Component<Props> {
     });
   }
 
-  // componentDidFocus(){
-  //   AsyncStorage.getItem('@SALDO').then((value) => {
-  //     if (parseFloat(value)) {
-  //       this.setState({ valor: parseFloat(value) });
-  //     } else {
-  //       this.setState({ valor: 0 });
-  //     }
-  //   });
-  //   AsyncStorage.getItem('@PAGO').then((value) => {
-  //     if(parseFloat(value)){
-  //       this.setState({ pago: parseFloat(value) });
-  //     }else{
-  //       this.setState({ pago: 0 });
-  //     }
-  //   }); 
-  // }
+  componentDidUpdate(){
+    AsyncStorage.getItem('@SALDO').then((value) => {
+      if (parseFloat(value)) {
+        this.setState({ valor: parseFloat(value) });
+      } else {
+        this.setState({ valor: 0 });
+      }
+    });
+  }
 
 
   render() {
@@ -76,7 +69,7 @@ export default class homeScreen extends Component<Props> {
             }}
             style={styles.container_valor}>
             <Text style={styles.txt_ds_valor}> Valor total no cartão </Text>
-            <Text style={styles.txt_valor}> R$ {this.state.valor} </Text>
+            <Text style={styles.txt_valor}> R$ {parseFloat(this.state.valor).toFixed(2)} </Text>
             <Text style={styles.txt_ds_valor}> Clique para recarregar </Text>
           </TouchableOpacity>
 
@@ -96,7 +89,9 @@ export default class homeScreen extends Component<Props> {
                     },
                     {
                       text: 'OK', onPress: () => {
-
+                          var total = (this.state.valor) - (this.state.pago);
+                          this.setState({ valor: total });
+                          AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor)); 
                       }
                     },
                   ],
@@ -113,7 +108,9 @@ export default class homeScreen extends Component<Props> {
                   { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
                   {
                     text: 'OK', onPress: () => {
-
+                      var total = (this.state.valor) + (this.state.pago);
+                          this.setState({ valor: total });
+                          AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor)); 
                     }
                   },
                 ],

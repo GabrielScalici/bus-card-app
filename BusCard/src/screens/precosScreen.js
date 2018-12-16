@@ -58,7 +58,7 @@ export default class precosScreen extends Component<Props> {
 
         <Header
           back
-          onPress={() => this.props.navigation.goBack(null).refresh()}
+          onPress={() => this.props.navigation.goBack(null)}
         > Preços </Header>
         <ScrollView>
 
