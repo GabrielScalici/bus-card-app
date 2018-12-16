@@ -19,6 +19,8 @@ import ItemList from '../components/ItemList';
 import ButtonText from '../components/ButtonText';
 import ButtonDefault from '../components/ButtonDefault';
 
+
+
 type Props = {};
 export default class precosScreen extends Component<Props> {
   constructor(props) {

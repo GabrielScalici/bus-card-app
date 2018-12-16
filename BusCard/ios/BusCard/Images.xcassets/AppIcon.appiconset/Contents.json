@@ -25,7 +25,7 @@
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "logo3.png",
+      "filename" : "logo3-1.png",
       "scale" : "2x"
     },
     {
@@ -36,7 +36,7 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "logo_buscard.png",
+      "filename" : "logo4.png",
       "scale" : "2x"
     },
     {
@@ -47,7 +47,7 @@
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "logo4.png",
+      "filename" : "logo5.png",
       "scale" : "1x"
     }
   ],
