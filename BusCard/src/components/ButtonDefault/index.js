@@ -18,7 +18,7 @@ export default class ButtonDefault extends Component {
     render() {
         return (
             <TouchableOpacity
-                onPress={() => this.props.onPress}
+                onPress={this.props.onPress}
             >
                 <LinearGradient colors={[colors.secundaria, colors.primaria]} style={styles.container}>
                     <Text style={styles.titulo}> {this.props.children} </Text>

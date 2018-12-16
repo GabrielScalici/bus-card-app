@@ -30,6 +30,24 @@ export default class homeScreen extends Component<Props> {
       meia: false,
     };
   }
+
+  saveValue(value) {
+    var total = parseFloat(this.state.valor) + parseFloat(value);
+    this.setState({ valor: total });
+    Alert.alert(
+      'Recarga efetuada!',
+      'Você acabou de recarregar seu cartão',
+      [
+        {
+          text: 'OK', onPress: () => {
+
+          }
+        },
+      ],
+      { cancelable: false }
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -51,18 +69,42 @@ export default class homeScreen extends Component<Props> {
             showsHorizontalScrollIndicator={false}
             style={{ marginVertical: metrics.padding }}
           >
-            <ButtonDefault> R$ 10</ButtonDefault>
-            <ButtonDefault> R$ 15</ButtonDefault>
-            <ButtonDefault> R$ 20</ButtonDefault>
-            <ButtonDefault> R$ 25</ButtonDefault>
-            <ButtonDefault> R$ 30</ButtonDefault>
-            <ButtonDefault> R$ 40</ButtonDefault>
-            <ButtonDefault> R$ 50</ButtonDefault>
-            <ButtonDefault> R$ 60</ButtonDefault>
-            <ButtonDefault> R$ 70</ButtonDefault>
-            <ButtonDefault> R$ 80</ButtonDefault>
-            <ButtonDefault> R$ 90</ButtonDefault>
-            <ButtonDefault> R$ 100</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('10')}
+            > R$ 10</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('15')}
+            > R$ 15</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('20')}
+            > R$ 20</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('25')}
+            > R$ 25</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('30')}
+            > R$ 30</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('40')}
+            > R$ 40</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('50')}
+            > R$ 50</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('60')}
+            > R$ 60</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('70')}
+            > R$ 70</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('80')}
+            > R$ 80</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('90')}
+            > R$ 90</ButtonDefault>
+            <ButtonDefault
+              onPress={() => this.saveValue('100')}
+            > R$ 100</ButtonDefault>
           </ScrollView>
 
           <View>
@@ -97,9 +139,9 @@ export default class homeScreen extends Component<Props> {
                 if (this.state.valor_digitado > 0) {
                   var total = parseFloat(this.state.valor) + parseFloat(this.state.valor_digitado);
                   this.setState({ valor: total });
-                  this.setState({ valor_digitado: 0 });
+                  //this.setState({ valor_digitado: 0 });
                   Alert.alert(
-                    'Recarga efetuada?',
+                    'Recarga efetuada!',
                     'Você acabou de recarregar seu cartão',
                     [
                       {
@@ -112,7 +154,7 @@ export default class homeScreen extends Component<Props> {
                   )
                 } else {
                   Alert.alert(
-                    'Digite um valor para ser recarregado',
+                    'Digite um valor para ser recarregado!',
                     'Pode usar também os centavos',
                     [
                       {
