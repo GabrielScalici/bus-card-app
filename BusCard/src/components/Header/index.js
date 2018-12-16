@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { colors, metrics, font } from '../../styles';
 import styles from './styles';
 
+const logo = require('../../../img/logo.png');
+
 export default class Header extends Component {
 
     constructor(props) {
@@ -35,7 +37,18 @@ export default class Header extends Component {
             return (
                 <View>
                     <LinearGradient colors={[colors.secundaria, colors.primaria]} style={styles.container}>
+                        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                            <Image
+                                style={{ width: 30, height: 30, borderRadius: 5 }}
+                                source={logo}
+                            />
+                        </View>
                         <Text style={styles.titulo}> {this.props.children} </Text>
+                        <TouchableOpacity
+                            onPress={this.props.onPress}
+                        >
+                            <Icon name={"ios-refresh"} color={colors.branco} size={30}> </Icon>
+                        </TouchableOpacity>
                     </LinearGradient>
                 </View>
             );

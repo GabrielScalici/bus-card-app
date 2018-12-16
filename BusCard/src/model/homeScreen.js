@@ -24,10 +24,11 @@ export default class homeScreen extends Component<Props> {
     this.state = {
       valor: 0,
       pago: 0,
+      aux: 0,
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     AsyncStorage.getItem('@SALDO').then((value) => {
       if (parseFloat(value)) {
         this.setState({ valor: parseFloat(value) });
@@ -45,22 +46,29 @@ export default class homeScreen extends Component<Props> {
     });
   }
 
-  componentDidUpdate(){
-    AsyncStorage.getItem('@SALDO').then((value) => {
-      if (parseFloat(value)) {
-        this.setState({ valor: parseFloat(value) });
-      } else {
-        this.setState({ valor: 0 });
-      }
-    });
-  }
-
 
   render() {
     return (
       <View style={styles.container}>
+        <Header
+          onPress={() => {
+            AsyncStorage.getItem('@SALDO').then((value) => {
+              if (parseFloat(value)) {
+                this.setState({ valor: parseFloat(value) });
+              } else {
+                this.setState({ valor: 0 });
+              }
+            });
 
-        <Header> BusCard </Header>
+            AsyncStorage.getItem('@PAGO').then((value) => {
+              if (parseFloat(value)) {
+                this.setState({ pago: parseFloat(value) });
+              } else {
+                this.setState({ pago: 0 });
+              }
+            });
+          }}
+        > BusCard </Header>
         <ScrollView>
 
           <TouchableOpacity
@@ -89,9 +97,11 @@ export default class homeScreen extends Component<Props> {
                     },
                     {
                       text: 'OK', onPress: () => {
-                          var total = (this.state.valor) - (this.state.pago);
+                        if (this.state.pago != 0) {
+                          var total = (this.state.valor) + (this.state.pago);
                           this.setState({ valor: total });
-                          AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor)); 
+                          AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                        }
                       }
                     },
                   ],
@@ -108,9 +118,11 @@ export default class homeScreen extends Component<Props> {
                   { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
                   {
                     text: 'OK', onPress: () => {
-                      var total = (this.state.valor) + (this.state.pago);
-                          this.setState({ valor: total });
-                          AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor)); 
+                      if (this.state.valor != 0) {
+                        var total = (this.state.valor) - (this.state.pago);
+                        this.setState({ valor: total });
+                        AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                      }
                     }
                   },
                 ],
@@ -123,6 +135,7 @@ export default class homeScreen extends Component<Props> {
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate('precosScreen');
+              this.setState({ aux: 1 });
             }}
             style={styles.container_valor}>
             <Text style={styles.txt_ds_valor}> Valor pago na passagem </Text>

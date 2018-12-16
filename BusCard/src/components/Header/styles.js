@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
 
     container:{
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         padding: metrics.padding,
         height: 100,
         flexDirection: "row" 
