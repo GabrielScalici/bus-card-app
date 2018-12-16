@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, AsyncStorage } from 'react-native';
 
 import { metrics, font, colors } from '../styles';
 
@@ -22,9 +22,32 @@ export default class homeScreen extends Component<Props> {
 
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
-      valor: '32,00',
+      valor: '0',
     };
   }
+
+  componentDidMount() {
+    AsyncStorage.getItem('@SALDO').then((value) => {
+      if(value){
+        this.setState({ valor: parseFloat(value) });
+      }else{
+        this.setState({ valor: 0 });
+      }
+    });
+    
+  }
+  
+  componentDidUpdate(){
+    AsyncStorage.getItem('@SALDO').then((value) => {
+      if(value){
+        this.setState({ valor: parseFloat(value) });
+      }else{
+        this.setState({ valor: 0 });
+      }
+    });
+
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -103,7 +126,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cinza_mais_escuro,
     height: 200,
     borderRadius: 20,
-
   },
   txt_ds_valor: {
     fontSize: font.ds_label,

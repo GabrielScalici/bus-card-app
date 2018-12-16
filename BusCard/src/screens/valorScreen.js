@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, Alert, TextInput } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, Alert, TextInput, AsyncStorage } from 'react-native';
 import { Switch } from 'react-native-switch';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -25,13 +25,22 @@ export default class homeScreen extends Component<Props> {
 
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
-      valor: 32.00,
+      valor: 0,
       valor_digitado: 0,
       meia: false,
     };
   }
+  componentDidMount() {
+    AsyncStorage.getItem('@SALDO').then((value) => {
+      if (value) {
+        this.setState({ valor: parseFloat(value) });
+      } else {
+        this.setState({ valor: 0 });
+      }
+    });
+  }
 
-  saveValue(value) {
+  saveValue = async (value) => {
     var total = parseFloat(this.state.valor) + parseFloat(value);
     this.setState({ valor: total });
     Alert.alert(
@@ -40,7 +49,11 @@ export default class homeScreen extends Component<Props> {
       [
         {
           text: 'OK', onPress: () => {
-
+            try {
+              AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+            } catch (error) {
+              console.log(error)
+            }
           }
         },
       ],
@@ -139,14 +152,17 @@ export default class homeScreen extends Component<Props> {
                 if (this.state.valor_digitado > 0) {
                   var total = parseFloat(this.state.valor) + parseFloat(this.state.valor_digitado);
                   this.setState({ valor: total });
-                  //this.setState({ valor_digitado: 0 });
                   Alert.alert(
                     'Recarga efetuada!',
                     'Você acabou de recarregar seu cartão',
                     [
                       {
                         text: 'OK', onPress: () => {
-
+                          try {
+                            AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                          } catch (error) {
+                            console.log(error)
+                          }
                         }
                       },
                     ],
@@ -187,6 +203,32 @@ export default class homeScreen extends Component<Props> {
 
           </View>
 
+          <View
+            style={styles.container_zerar}>
+            <Text style={styles.txt_ds_zerar}> Zerar seu saldo?</Text>
+            <ButtonText
+              outline
+              color={'white'}
+              onPress={() => {
+                Alert.alert(
+                  'Deseja zerar o saldo do seu cartão?',
+                  'Esta operação não poderá ser desfeita depois de confirmada.',
+                  [
+                    { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
+                    {
+                      text: 'OK', onPress: () => {
+                        this.setState({ valor: 0 });
+                        AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                      }
+                    },
+                  ],
+                  { cancelable: false }
+                )
+              }}>
+              ZERAR O SALDO DO CARTÃO
+          </ButtonText>
+          </View>
+
         </ScrollView>
       </View>
     );
@@ -203,6 +245,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cinza,
     borderRadius: 20,
     padding: metrics.padding,
+  },
+  container_zerar: {
+    margin: metrics.padding,
+    padding: metrics.padding,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.secundaria,
+    height: 200,
+    borderRadius: 20,
   },
   vw_recarregar: {
     flexDirection: "row",
@@ -250,5 +301,10 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: font.icon_list,
     padding: metrics.padding,
+  },
+  txt_ds_zerar: {
+    fontFamily: 'System',
+    fontSize: 25,
+    color: 'white',
   },
 });
