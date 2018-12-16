@@ -66,7 +66,9 @@ export default class valorScreen extends Component<Props> {
 
         <Header
           back
-          onPress={() => this.props.navigation.goBack(null)}
+          onPress={() => {
+            this.props.navigation.goBack(null);
+          }}
         > Recarregar </Header>
         <ScrollView>
 
