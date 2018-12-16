@@ -45,23 +45,23 @@ export default class homeScreen extends Component<Props> {
     });
   }
 
-  componentDidUpdate() {
-    AsyncStorage.getItem('@SALDO').then((value) => {
-      if (parseFloat(value)) {
-        this.setState({ valor: parseFloat(value) });
-      } else {
-        this.setState({ valor: 0 });
-      }
-    });
-    // AsyncStorage.getItem('@PAGO').then((value) => {
-    //   if(parseFloat(value)){
-    //     this.setState({ pago: parseFloat(value) });
-    //   }else{
-    //     this.setState({ pago: 0 });
-    //   }
-    // });
+  // componentDidFocus(){
+  //   AsyncStorage.getItem('@SALDO').then((value) => {
+  //     if (parseFloat(value)) {
+  //       this.setState({ valor: parseFloat(value) });
+  //     } else {
+  //       this.setState({ valor: 0 });
+  //     }
+  //   });
+  //   AsyncStorage.getItem('@PAGO').then((value) => {
+  //     if(parseFloat(value)){
+  //       this.setState({ pago: parseFloat(value) });
+  //     }else{
+  //       this.setState({ pago: 0 });
+  //     }
+  //   }); 
+  // }
 
-  }
 
   render() {
     return (
