@@ -21,7 +21,7 @@ const logo = require('../../img/logo.png');
 let widthS = Dimensions.get('window').width;
 
 type Props = {};
-export default class loginScreen extends Component<Props> {
+export default class splashScreen extends Component<Props> {
 
     constructor(props){
         super(props);

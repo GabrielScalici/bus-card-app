@@ -16,7 +16,7 @@ import ItemList from '../components/ItemList';
 import ButtonDefault from '../components/ButtonDefault';
 
 type Props = {};
-export default class homeScreen extends Component<Props> {
+export default class configScreen extends Component<Props> {
   constructor(props) {
     super(props);
 

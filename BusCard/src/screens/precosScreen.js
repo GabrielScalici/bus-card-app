@@ -19,7 +19,7 @@ import ButtonText from '../components/ButtonText';
 import ButtonDefault from '../components/ButtonDefault';
 
 type Props = {};
-export default class valorScreen extends Component<Props> {
+export default class precosScreen extends Component<Props> {
   constructor(props) {
     super(props);
 

@@ -23,6 +23,7 @@ export default class homeScreen extends Component<Props> {
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
       valor: '0',
+      passagem: '0'
     };
   }
 
@@ -34,6 +35,13 @@ export default class homeScreen extends Component<Props> {
         this.setState({ valor: 0 });
       }
     });
+    AsyncStorage.getItem('@PASSAGEM').then((value) => {
+      if(value){
+        this.setState({ passagem: parseFloat(value) });
+      }else{
+        this.setState({ passagem: 0 });
+      }
+    });
     
   }
   
@@ -43,6 +51,13 @@ export default class homeScreen extends Component<Props> {
         this.setState({ valor: parseFloat(value) });
       }else{
         this.setState({ valor: 0 });
+      }
+    });
+    AsyncStorage.getItem('@PASSAGEM').then((value) => {
+      if(value){
+        this.setState({ passagem: parseFloat(value) });
+      }else{
+        this.setState({ passagem: 0 });
       }
     });
 
