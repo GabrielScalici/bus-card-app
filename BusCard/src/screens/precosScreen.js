@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, ScrollView, Alert, TextInput, AsyncStorage } from 'react-native';
 import { Switch } from 'react-native-switch';
 import Icon from 'react-native-vector-icons/Ionicons';
+import renderIf from 'render-if';
 
 import { metrics, font, colors } from '../styles';
 
@@ -64,60 +65,6 @@ export default class precosScreen extends Component<Props> {
             <Text style={styles.txt_valor}> R$ {this.state.passagem} </Text>
           </View>
 
-          <View style={{ flex: 1, flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
-
-            <Switch
-              barHeight={26}
-              circleSize={24}
-              backgroundActive={colors.primaria}
-              backgroundInactive={'#D0D0D0'}
-              circleBorderWidth={0}
-              onValueChange={(value) => {
-                if (this.state.passagem === 0) {
-                  Alert.alert(
-                    'Digite o valor da passagem inteira!',
-                    'Primeiro digite o valor da passagem para que possamos fazer as contas de meia passagem!',
-                    [
-                      {
-                        text: 'OK', onPress: () => {
-                        }
-                      },
-                    ],
-                    { cancelable: false }
-                  )
-                } else {
-                  this.setState({ meia: value });
-                  if (this.state.meia) {
-                    var total = parseFloat(this.state.passagem) / 2;
-                    this.setState({ pago: total});
-                    Alert.alert(
-                      'Passagem meia adicionada!',
-                      'Os gastos serão contados como meia passagem!',
-                      [
-                        {
-                          text: 'OK', onPress: () => {
-                            AsyncStorage.setItem('@PAGO', JSON.stringify(this.state.pago));
-                          }
-                        },
-                      ],
-                      { cancelable: false }
-                    )
-                  }
-
-                }
-
-              }}
-              value={this.state.meia}
-              keyboardType={'numeric'}
-            />
-            <Text style={styles.subtitle}> Utilizar cobrança de meia passagem </Text>
-
-          </View>
-
-          <View>
-            <Text style={styles.txt_ds}> Alterar valor para a passagem </Text>
-          </View>
-
           <View style={styles.container_outro_valor}>
             <View style={{ flexDirection: "row", justifyContent: 'center' }}>
 
@@ -154,6 +101,7 @@ export default class precosScreen extends Component<Props> {
                         text: 'OK', onPress: () => {
                           try {
                             AsyncStorage.setItem('@PASSAGEM', JSON.stringify(this.state.passagem));
+                            AsyncStorage.setItem('@PAGO', JSON.stringify(this.state.passagem));
                           } catch (error) {
                             console.log(error)
                           }

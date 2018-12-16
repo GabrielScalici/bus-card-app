@@ -25,44 +25,36 @@ export default class homeScreen extends Component<Props> {
       valor: '0',
       pago: 0,
     };
+  }
 
-      AsyncStorage.getItem('@PAGO').then((value) => {
-      if(value){
+  componentDidMount(){
+    AsyncStorage.getItem('@SALDO').then((value) => {
+      if (parseFloat(value)) {
+        this.setState({ valor: parseFloat(value) });
+      } else {
+        this.setState({ valor: 0 });
+      }
+    });
+
+    AsyncStorage.getItem('@PAGO').then((value) => {
+      if (parseFloat(value)) {
         this.setState({ pago: parseFloat(value) });
-      }else{
+      } else {
         this.setState({ pago: 0 });
       }
     });
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     AsyncStorage.getItem('@SALDO').then((value) => {
-      if(value){
+      if (parseFloat(value)) {
         this.setState({ valor: parseFloat(value) });
-      }else{
+      } else {
         this.setState({ valor: 0 });
       }
     });
     // AsyncStorage.getItem('@PAGO').then((value) => {
-    //   if(value){
-    //     this.setState({ pago: parseFloat(value) });
-    //   }else{
-    //     this.setState({ pago: 0 });
-    //   }
-    // });
-    
-  }
-  
-  componentDidUpdate(){
-    AsyncStorage.getItem('@SALDO').then((value) => {
-      if(value){
-        this.setState({ valor: parseFloat(value) });
-      }else{
-        this.setState({ valor: 0 });
-      }
-    });
-    // AsyncStorage.getItem('@PAGO').then((value) => {
-    //   if(value){
+    //   if(parseFloat(value)){
     //     this.setState({ pago: parseFloat(value) });
     //   }else{
     //     this.setState({ pago: 0 });
