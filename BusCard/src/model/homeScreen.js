@@ -46,34 +46,37 @@ export default class homeScreen extends Component<Props> {
     });
   }
 
+  refresh() {
+    AsyncStorage.getItem('@SALDO').then((value) => {
+      if (parseFloat(value)) {
+        this.setState({ valor: parseFloat(value) });
+      } else {
+        this.setState({ valor: 0 });
+      }
+    });
+
+    AsyncStorage.getItem('@PAGO').then((value) => {
+      if (parseFloat(value)) {
+        this.setState({ pago: parseFloat(value) });
+      } else {
+        this.setState({ pago: 0 });
+      }
+    });
+  }
+
 
   render() {
     return (
       <View style={styles.container}>
         <Header
-          onPress={() => {
-            AsyncStorage.getItem('@SALDO').then((value) => {
-              if (parseFloat(value)) {
-                this.setState({ valor: parseFloat(value) });
-              } else {
-                this.setState({ valor: 0 });
-              }
-            });
-
-            AsyncStorage.getItem('@PAGO').then((value) => {
-              if (parseFloat(value)) {
-                this.setState({ pago: parseFloat(value) });
-              } else {
-                this.setState({ pago: 0 });
-              }
-            });
-          }}
         > BusCard </Header>
         <ScrollView>
 
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.navigate('valorScreen');
+              this.props.navigation.navigate('valorScreen', {
+                onGoBack: () => this.refresh(),
+              });
             }}
             style={styles.container_valor}>
             <Text style={styles.txt_ds_valor}> Valor total no cartão </Text>
@@ -134,8 +137,9 @@ export default class homeScreen extends Component<Props> {
 
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.navigate('precosScreen');
-              this.setState({ aux: 1 });
+              this.props.navigation.navigate('precosScreen', {
+                onGoBack: () => this.refresh(),
+              });
             }}
             style={styles.container_valor}>
             <Text style={styles.txt_ds_valor}> Valor pago na passagem </Text>

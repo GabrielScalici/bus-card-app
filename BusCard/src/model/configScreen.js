@@ -25,8 +25,12 @@ export default class configScreen extends Component<Props> {
 
     //ESTADOS PARA ARMAZENAR OS VALORES DIGITADOS PELO USUARIO
     this.state = {
-      valor: '32,00',
+      valor: '',
     };
+  }
+
+  refresh() {
+    this.setState({valor: '1'});
   }
   render() {
     return (
@@ -46,13 +50,17 @@ export default class configScreen extends Component<Props> {
             <ItemList
               icon={"ios-cash"}
               onPress={() => {
-                this.props.navigation.navigate('precosScreen');
+                this.props.navigation.navigate('precosScreen', {
+                  onGoBack: () => this.refresh(),
+                });
               }}
             > Configurar Preços </ItemList>
             <ItemList
               icon={"ios-card"}
               onPress={() => {
-                this.props.navigation.navigate('valorScreen');
+                this.props.navigation.navigate('valorScreen', {
+                  onGoBack: () => this.refresh(),
+                });
               }}
             > Recarregar </ItemList>
             <ItemList
