@@ -37,17 +37,14 @@ export default class Header extends Component {
             return (
                 <View>
                     <LinearGradient colors={[colors.secundaria, colors.primaria]} style={styles.container}>
-                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ width: 30, height: 30, borderRadius: 5 }}
-                                source={logo}
-                            />
+
+                        <View>
+                            <Text> </Text>
                         </View>
                         <Text style={styles.titulo}> {this.props.children} </Text>
-                        <Image
-                            style={{ width: 30, height: 30, borderRadius: 5 }}
-                            source={logo}
-                        />
+                        <View>
+                            <Text> </Text>
+                        </View>
                     </LinearGradient>
                 </View>
             );
