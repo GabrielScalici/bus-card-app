@@ -74,17 +74,19 @@ export default class homeScreen extends Component<Props> {
                 > BusCard </Header>
                 <ScrollView>
 
-                    <TouchableOpacity
-                        onPress={() => {
-                            this.props.navigation.navigate('valorScreen', {
-                                onGoBack: () => this.refresh(),
-                            });
-                        }}
+                    <View
                         style={styles.container_valor}>
                         <Text style={styles.txt_ds_valor}> Valor total no cartão </Text>
                         <Text style={styles.txt_valor}> R$ {parseFloat(this.state.valor).toFixed(2)} </Text>
-                        <Text style={styles.txt_ds_valor}> Clique para recarregar </Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.props.navigation.navigate('valorScreen', {
+                                    onGoBack: () => this.refresh(),
+                                });
+                            }}>
+                            <Text style={styles.txt_ds_valor}> Clique para recarregar </Text>
+                        </TouchableOpacity>
+                    </View>
 
 
                     <Text style={styles.txt_ds_valor}> Usar passagem </Text>
@@ -137,17 +139,20 @@ export default class homeScreen extends Component<Props> {
                         > Usar </ButtonDefault>
                     </View>
 
-                    <TouchableOpacity
-                        onPress={() => {
-                            this.props.navigation.navigate('precosScreen', {
-                                onGoBack: () => this.refresh(),
-                            });
-                        }}
+                    <View
                         style={styles.container_valor}>
                         <Text style={styles.txt_ds_valor}> Valor pago na passagem </Text>
                         <Text style={styles.txt_pago}> R$ {this.state.pago} </Text>
-                        <Text style={styles.txt_ds_valor}> Clique para alterar o preço </Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.props.navigation.navigate('precosScreen', {
+                                    onGoBack: () => this.refresh(),
+                                });
+                            }}
+                        >
+                            <Text style={styles.txt_ds_valor}> Clique para alterar o preço </Text>
+                        </TouchableOpacity>
+                    </View>
 
                 </ScrollView>
             </View>
