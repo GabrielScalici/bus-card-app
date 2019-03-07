@@ -29,7 +29,7 @@ export default class Header extends Component {
                             <Icon name={"ios-arrow-back"} color={colors.branco} size={40}> </Icon>
                         </TouchableOpacity>
                         <Text style={styles.titulo}> {this.props.children} </Text>
-                        <Text style={styles.titulo}></Text>
+                        <View style={{width: 30}}></View>
                     </LinearGradient>
                 </View>
             );

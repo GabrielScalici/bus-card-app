@@ -8,6 +8,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, Image, StatusBar } from 'react-native';
 
+//MEDIDAS
 import { metrics, font, colors } from '../styles';
 
 //COMPONENTES
@@ -65,9 +66,15 @@ export default class configScreen extends Component<Props> {
                                 });
                             }}
                         > Recarregar </ItemList>
+                        <ItemList
+                            onPress={() => {
+                                this.props.navigation.navigate('usScreen');
+                            }}
+                            icon={"ios-list"}
+                        > Sobre </ItemList>
                         {/* <ItemList
-              icon={"ios-time"}
-            > Configurar integração </ItemList> */}
+                            icon={"ios-time"}
+                        > Configurar integração </ItemList> */}
                     </View>
 
                 </ScrollView>

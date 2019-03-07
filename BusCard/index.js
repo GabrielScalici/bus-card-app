@@ -15,7 +15,7 @@ class Main extends Component {
         //Funcao temporizadora para mudar de tela após um período
         setTimeout(() => {
             this.setState({ atualScreen: 'App'})
-        }, 3000)
+        }, 2000)
     }
 
     render() {

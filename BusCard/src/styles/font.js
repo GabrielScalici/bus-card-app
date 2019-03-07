@@ -9,7 +9,7 @@
 
 export default{
 
-    header: 30,
+    header: 26,
 
     ds_label: 12,
 

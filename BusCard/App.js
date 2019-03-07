@@ -20,12 +20,14 @@ import tab from './src/nav/tab';
 //SCREENS
 import valorScreen from './src/screens/valorScreen';
 import precosScreen from './src/screens/precosScreen';
+import usScreen from './src/screens/usScreen';
 
 const Nav = StackNavigator({
     homeScreen: { screen: homeScreen },
     configScreen: { screen: configScreen },
     valorScreen: { screen: valorScreen },
     precosScreen: { screen: precosScreen },
+    usScreen: { screen: usScreen },
     tab: { screen: tab },
 }, {
     // Default config for all screens
