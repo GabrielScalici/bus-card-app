@@ -6,8 +6,11 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, AsyncStorage, StatusBar } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, AsyncStorage, StatusBar, SafeAreaView } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { withNavigationFocus } from "react-navigation";
 
+//MEDIDAS
 import { metrics, font, colors } from '../styles';
 
 //COMPONENTES
@@ -29,6 +32,13 @@ export default class homeScreen extends Component<Props> {
     }
 
     componentDidMount() {
+        const { navigation } = this.props;
+        
+        this.focusListener = navigation.addListener("didFocus", () => {
+            this.forceUpdate();
+        });
+
+
         AsyncStorage.getItem('@SALDO').then((value) => {
             if (parseFloat(value)) {
                 this.setState({ valor: parseFloat(value) });
@@ -67,95 +77,105 @@ export default class homeScreen extends Component<Props> {
 
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.safeArea}>
+                <View style={styles.container}>
 
-                <StatusBar backgroundColor={colors.secundaria} />
-                <Header
-                > BusCard </Header>
-                <ScrollView>
+                    <StatusBar backgroundColor={colors.secundaria} />
+                    <ScrollView>
+                        <Header
+                        > BusCard </Header>
 
-                    <View
-                        style={styles.container_valor}>
-                        <Text style={styles.txt_ds_valor}> Valor total no cartão </Text>
-                        <Text style={styles.txt_valor}> R$ {parseFloat(this.state.valor).toFixed(2)} </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                this.props.navigation.navigate('valorScreen', {
-                                    onGoBack: () => this.refresh(),
-                                });
-                            }}>
-                            <Text style={styles.txt_ds_valor}> Clique para recarregar </Text>
-                        </TouchableOpacity>
-                    </View>
+                        <Animatable.View animation="fadeInDownBig" interationCount={1}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.props.navigation.navigate('valorScreen', {
+                                        onGoBack: () => this.refresh(),
+                                    });
+                                }}>
+                                <View
+                                    style={styles.container_valor}>
+                                    <Text style={styles.txt_ds_valor}> Valor total no cartão </Text>
+                                    <Text style={styles.txt_valor}> R$ {parseFloat(this.state.valor).toFixed(2)} </Text>
+                                    <Text style={styles.txt_ds_valor}> Clique para recarregar </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </Animatable.View>
 
 
-                    <Text style={styles.txt_ds_valor}> Usar passagem </Text>
-                    <View style={styles.btn_default}>
-                        <ButtonDefault
-                            onPress={() => {
-                                Alert.alert(
-                                    'Voltar uma passagem?',
-                                    'Você irá voltar o valor de uma passagem',
-                                    [
-                                        {
-                                            text: 'Cancelar', onPress: () => {
 
-                                            }, style: 'cancel'
-                                        },
-                                        {
-                                            text: 'OK', onPress: () => {
-                                                if (this.state.pago != 0) {
-                                                    var total = (this.state.valor) + (this.state.pago);
-                                                    this.setState({ valor: total });
-                                                    AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                        <Text style={styles.txt_ds_valor}> Usar passagem </Text>
+                        <View style={styles.btn_default}>
+                            <Animatable.View animation="fadeInLeftBig" interationCount={1}>
+                                <ButtonDefault
+                                    onPress={() => {
+                                        Alert.alert(
+                                            'Voltar uma passagem?',
+                                            'Você irá voltar o valor de uma passagem',
+                                            [
+                                                {
+                                                    text: 'Cancelar', onPress: () => {
+
+                                                    }, style: 'cancel'
+                                                },
+                                                {
+                                                    text: 'OK', onPress: () => {
+                                                        if (this.state.pago != 0) {
+                                                            var total = (this.state.valor) + (this.state.pago);
+                                                            this.setState({ valor: total });
+                                                            AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                                                        }
+                                                    }
+                                                },
+                                            ],
+                                            { cancelable: false }
+                                        )
+                                    }
+                                    }
+                                > Voltar </ButtonDefault>
+                            </Animatable.View>
+                            <Animatable.View animation="fadeInRightBig" interationCount={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                <ButtonDefault
+                                    onPress={() => Alert.alert(
+                                        'Usar uma passagem?',
+                                        'Você irá gastar o valor de uma passagem',
+                                        [
+                                            { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
+                                            {
+                                                text: 'OK', onPress: () => {
+                                                    if (this.state.valor != 0) {
+                                                        var total = (this.state.valor) - (this.state.pago);
+                                                        this.setState({ valor: total });
+                                                        AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                                                    }
                                                 }
-                                            }
-                                        },
-                                    ],
-                                    { cancelable: false }
-                                )
-                            }
-                            }
-                        > Voltar </ButtonDefault>
-                        <ButtonDefault
-                            onPress={() => Alert.alert(
-                                'Usar uma passagem?',
-                                'Você irá gastar o valor de uma passagem',
-                                [
-                                    { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
-                                    {
-                                        text: 'OK', onPress: () => {
-                                            if (this.state.valor != 0) {
-                                                var total = (this.state.valor) - (this.state.pago);
-                                                this.setState({ valor: total });
-                                                AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
-                                            }
-                                        }
-                                    },
-                                ],
-                                { cancelable: false }
-                            )
-                            }
-                        > Usar </ButtonDefault>
-                    </View>
+                                            },
+                                        ],
+                                        { cancelable: false }
+                                    )
+                                    }
+                                > Usar </ButtonDefault>
+                            </Animatable.View>
+                        </View>
+                        <Animatable.View animation="fadeInUpBig" interationCount={1}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.props.navigation.navigate('precosScreen', {
+                                        onGoBack: () => this.refresh(),
+                                    });
+                                }}
+                            >
+                                <View
+                                    style={styles.container_valor}>
+                                    <Text style={styles.txt_ds_valor}> Valor pago na passagem </Text>
+                                    <Text style={styles.txt_pago}> R$ {this.state.pago} </Text>
+                                    <Text style={styles.txt_ds_valor}> Clique para alterar o preço </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </Animatable.View>
 
-                    <View
-                        style={styles.container_valor}>
-                        <Text style={styles.txt_ds_valor}> Valor pago na passagem </Text>
-                        <Text style={styles.txt_pago}> R$ {this.state.pago} </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                this.props.navigation.navigate('precosScreen', {
-                                    onGoBack: () => this.refresh(),
-                                });
-                            }}
-                        >
-                            <Text style={styles.txt_ds_valor}> Clique para alterar o preço </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                </ScrollView>
-            </View>
+                    </ScrollView>
+                </View>
+            </SafeAreaView>
         );
     }
 }
@@ -193,8 +213,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
 
     },
-    configuracoes: {
-
-    }
+    safeArea: {
+        flex: 1,
+        backgroundColor: colors.secundaria
+    },
 
 });

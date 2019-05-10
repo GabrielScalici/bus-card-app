@@ -6,10 +6,13 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, Alert, TextInput, AsyncStorage } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, Alert, TextInput, AsyncStorage, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import renderIf from 'render-if';
 
+//MEDIDAS
 import { metrics, font, colors } from '../styles';
+let widthS = Dimensions.get('window').width;
 
 //COMPONENTES
 import Header from '../components/Header';
@@ -27,6 +30,7 @@ export default class valorScreen extends Component<Props> {
             valor: 0,
             valor_digitado: 0,
             meia: false,
+            outro: false,
         };
     }
     componentDidMount() {
@@ -123,77 +127,87 @@ export default class valorScreen extends Component<Props> {
                         > R$ 100</ButtonDefault>
                     </ScrollView>
 
-                    <View>
-                        <Text style={styles.txt_ds}> Outro Valor </Text>
+                    <View
+                        style={styles.container_outro}>
+                        <Text style={styles.txt_ds_zerar}> Outros valores?</Text>
+                        {renderIf(!this.state.outro)(
+                            <ButtonText
+                                outline
+                                color={'white'}
+                                onPress={() => {
+                                    this.setState({ outro: true });
+                                }}>
+                                DIGITAR OUTRO VALOR
+                            </ButtonText>
+                        )}
+                        {renderIf(this.state.outro)(
+                            <View>
+                                <View style={{ flexDirection: "row", justifyContent: 'center' }}>
+
+                                    <TextInput
+                                        placeholder="Digite o valor a ser recarregado"
+                                        placeholderTextColor= {colors.primaria}
+                                        style={styles.txt_placeholder}
+                                        underlineColorAndroid={colors.branco}
+                                        keyboardType="default"
+                                        autoFocus
+                                        onChangeText={aux => {
+                                            if (isNaN(aux)) {
+                                                Alert.alert('Ops...', "Digite somente números e ponto ou vírgula");
+                                            } else {
+                                                aux = parseFloat(aux.replace(',', '.'))
+                                                this.setState({ valor_digitado: aux })
+                                            }
+                                        }
+                                        }
+
+                                    />
+
+                                </View>
+
+                                <ButtonText
+                                    outline
+                                    color={colors.branco}
+                                    onPress={() => {
+                                        if (this.state.valor_digitado > 0) {
+                                            var total = parseFloat(this.state.valor) + parseFloat(this.state.valor_digitado);
+                                            this.setState({ valor: total });
+                                            this.setState({ outro: false })
+                                            AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+
+                                            Alert.alert(
+                                                'Recarga efetuada!',
+                                                'Você acabou de recarregar seu cartão',
+                                                [
+                                                    {
+                                                        text: 'OK', onPress: () => {
+
+                                                        }
+                                                    },
+                                                ],
+                                                { cancelable: false }
+                                            )
+                                        } else {
+                                            Alert.alert(
+                                                'Digite um valor para ser recarregado!',
+                                                'Pode usar também os centavos',
+                                                [
+                                                    {
+                                                        text: 'OK', onPress: () => {
+
+                                                        }
+                                                    },
+                                                ],
+                                                { cancelable: false }
+                                            )
+                                        }
+                                    }}
+                                >
+                                    SALVAR RECARGA
+                            </ButtonText>
+                            </View>
+                        )}
                     </View>
-
-                    <View style={styles.container_outro_valor}>
-                        <View style={{ flexDirection: "row", justifyContent: 'center' }}>
-
-                            <Icon style={styles.icon} color={colors.primaria} name={"ios-cash"} />
-
-                            <TextInput
-                                placeholder="Digite o valor a ser recarregado"
-                                placeholderTextColor='white'
-                                style={styles.txt_placeholder}
-                                underlineColorAndroid={colors.primaria}
-                                keyboardType="default"
-                                onChangeText={aux => {
-                                    if (isNaN(aux)) {
-                                        Alert.alert('Ops...', "Digite somente números e ponto ou vírgula");
-                                    } else {
-                                        aux = parseFloat(aux.replace(',', '.'))
-                                        this.setState({ valor_digitado: aux })
-                                    }
-                                }
-                                }
-
-                            />
-
-                        </View>
-
-                        <ButtonText
-                            outline
-                            color={colors.primaria}
-                            onPress={() => {
-                                if (this.state.valor_digitado > 0) {
-                                    var total = parseFloat(this.state.valor) + parseFloat(this.state.valor_digitado);
-                                    this.setState({ valor: total });
-                                    Alert.alert(
-                                        'Recarga efetuada!',
-                                        'Você acabou de recarregar seu cartão',
-                                        [
-                                            {
-                                                text: 'OK', onPress: () => {
-                                                    try {
-                                                        AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
-                                                    } catch (error) {
-                                                        console.log(error)
-                                                    }
-                                                }
-                                            },
-                                        ],
-                                        { cancelable: false }
-                                    )
-                                } else {
-                                    Alert.alert(
-                                        'Digite um valor para ser recarregado!',
-                                        'Pode usar também os centavos',
-                                        [
-                                            {
-                                                text: 'OK', onPress: () => {
-
-                                                }
-                                            },
-                                        ],
-                                        { cancelable: false }
-                                    )
-                                }
-                            }}>
-                            SALVAR RECARGA
-          </ButtonText>
-                    </View>
-
                     <View
                         style={styles.container_zerar}>
                         <Text style={styles.txt_ds_zerar}> Zerar seu saldo?</Text>
@@ -217,7 +231,7 @@ export default class valorScreen extends Component<Props> {
                                 )
                             }}>
                             ZERAR O SALDO DO CARTÃO
-          </ButtonText>
+                            </ButtonText>
                     </View>
 
                 </ScrollView>
@@ -243,6 +257,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.secundaria,
+        height: 200,
+        borderRadius: 20,
+    },
+    container_outro: {
+        margin: metrics.padding,
+        padding: metrics.padding,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.primaria,
         height: 200,
         borderRadius: 20,
     },
@@ -281,13 +304,13 @@ const styles = StyleSheet.create({
         fontSize: 15,
         padding: 5,
         borderWidth: 0,
-        height: 55,
+        height: 50,
         borderRadius: 10.5,
         marginVertical: 5,
-        width: 300,
+        width: widthS - (2*metrics.double_padding),
         justifyContent: 'center',
-        backgroundColor: colors.primaria,
-        color: 'white'
+        backgroundColor: colors.cinza,
+        color: colors.secundaria
     },
     icon: {
         fontSize: font.icon_list,
