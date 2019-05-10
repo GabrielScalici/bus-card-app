@@ -6,19 +6,20 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, Alert, TextInput, AsyncStorage } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, Alert, TextInput, AsyncStorage, Dimensions } from 'react-native';
 import { Switch } from 'react-native-switch';
 import Icon from 'react-native-vector-icons/Ionicons';
 import renderIf from 'render-if';
 
+//MEDIDAS
 import { metrics, font, colors } from '../styles';
+let widthS = Dimensions.get('window').width;
 
 //COMPONENTES
 import Header from '../components/Header';
 import ItemList from '../components/ItemList';
 import ButtonText from '../components/ButtonText';
 import ButtonDefault from '../components/ButtonDefault';
-
 
 
 type Props = {};
@@ -33,21 +34,24 @@ export default class precosScreen extends Component<Props> {
             meia: false,
             passagem: 0,
             pago: 0,
+            outro: false,
         };
     }
     componentDidMount() {
-        AsyncStorage.getItem('@PASSAGEM').then((value) => {
-            if (value) {
-                this.setState({ passagem: parseFloat(value) });
-            } else {
-                this.setState({ passagem: 0 });
-            }
-        });
+        // AsyncStorage.getItem('@PASSAGEM').then((value) => {
+        //     if (value) {
+        //         this.setState({ passagem: parseFloat(value) });
+        //     } else {
+        //         this.setState({ passagem: 0 });
+        //     }
+        // });
         AsyncStorage.getItem('@PAGO').then((value) => {
             if (value) {
                 this.setState({ pago: parseFloat(value) });
+                this.setState({ passagem: parseFloat(value) });
             } else {
                 this.setState({ pago: 0 });
+                this.setState({ passagem: 0 });
             }
         });
     }
@@ -70,72 +74,87 @@ export default class precosScreen extends Component<Props> {
                         <Text style={styles.txt_valor}> R$ {this.state.passagem} </Text>
                     </View>
 
-                    <View style={styles.container_outro_valor}>
-                        <View style={{ flexDirection: "row", justifyContent: 'center' }}>
+                    
+                    <View
+                        style={styles.container_outro}>
+                        <Text style={styles.txt_ds_zerar}> Quanto você paga?</Text>
+                        {renderIf(!this.state.outro)(
+                            <ButtonText
+                                outline
+                                color={'white'}
+                                onPress={() => {
+                                    this.setState({ outro: true });
+                                }}>
+                                DIGITAR O VALOR
+                            </ButtonText>
+                        )}
+                        {renderIf(this.state.outro)(
+                            <View>
+                                <View style={{ flexDirection: "row", justifyContent: 'center' }}>
 
-                            <Icon style={styles.icon} color={colors.primaria} name={"ios-calculator"} />
+                                    <TextInput
+                                        placeholder="Digite o valor a ser recarregado"
+                                        placeholderTextColor= {colors.primaria}
+                                        style={styles.txt_placeholder}
+                                        underlineColorAndroid={colors.branco}
+                                        keyboardType="default"
+                                        autoFocus
+                                        onChangeText={aux => {
+                                            if (isNaN(aux)) {
+                                                Alert.alert('Ops...', "Digite somente números e ponto ou vírgula");
+                                            } else {
+                                                aux = parseFloat(aux.replace(',', '.'))
+                                                this.setState({ valor_digitado: aux })
+                                            }
+                                        }
+                                        }
 
-                            <TextInput
-                                placeholder="Digite o novo valor de passagem"
-                                placeholderTextColor='white'
-                                style={styles.txt_placeholder}
-                                underlineColorAndroid={colors.primaria}
-                                keyboardType="default"
-                                onChangeText={aux => {
-                                    if (isNaN(aux)) {
-                                        Alert.alert('Ops...', "Digite somente números e ponto ou vírgula");
-                                    } else {
-                                        aux = parseFloat(aux.replace(',', '.'))
-                                        this.setState({ valor_digitado: aux })
-                                    }
-                                    }
-                                }
+                                    />
 
-              />
+                                </View>
 
-                        </View>
+                                <ButtonText
+                                    outline
+                                    color={colors.branco}
+                                    onPress={() => {
+                                        if (this.state.valor_digitado > 0) {
+                                            //var total = parseFloat(this.state.valor) + parseFloat(this.state.valor_digitado);
+                                            this.setState({ passagem: this.state.valor_digitado });
+                                            this.setState({ outro: false })
+                                            AsyncStorage.setItem('@PAGO', JSON.stringify(this.state.valor_digitado));
 
-                        <ButtonText
-                            outline
-                            color={colors.primaria}
-                            onPress={() => {
-                                if (this.state.valor_digitado > 0) {
-                                    var total = parseFloat(this.state.valor_digitado);
-                                    this.setState({ passagem: total });
-                                    Alert.alert(
-                                        'Preço cadastrado!',
-                                        'O preço da passagem foi atualizado',
-                                        [
-                                            {
-                                                text: 'OK', onPress: () => {
-                                                    try {
-                                                        AsyncStorage.setItem('@PASSAGEM', JSON.stringify(this.state.passagem));
-                                                        AsyncStorage.setItem('@PAGO', JSON.stringify(this.state.passagem));
-                                                    } catch (error) {
-                                                        console.log(error)
-                                                    }
-                                                }
-                                            },
-                                        ],
-                                        { cancelable: false }
-                                    )
-                                } else {
-                                    Alert.alert(
-                                        'Digite o preço da passagem!',
-                                        'Pode usar também os centavos',
-                                        [
-                                            {
-                                                text: 'OK', onPress: () => {
+                                            Alert.alert(
+                                                'Recarga efetuada!',
+                                                'Você acabou de recarregar seu cartão',
+                                                [
+                                                    {
+                                                        text: 'OK', onPress: () => {
 
-                                                }
-                                            },
-                                        ],
-                                        { cancelable: false }
-                                    )
-                                }
-                            }}>
-                            SALVAR PREÇO
-          </ButtonText>
+                                                        }
+                                                    },
+                                                ],
+                                                { cancelable: false }
+                                            )
+                                        } else {
+                                            Alert.alert(
+                                                'Digite um valor para ser recarregado!',
+                                                'Pode usar também os centavos',
+                                                [
+                                                    {
+                                                        text: 'OK', onPress: () => {
+
+                                                        }
+                                                    },
+                                                ],
+                                                { cancelable: false }
+                                            )
+                                        }
+                                    }}
+                                >
+                                    SALVAR RECARGA
+                            </ButtonText>
+                            </View>
+                        )}
                     </View>
 
                 </ScrollView>
@@ -149,11 +168,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F5FCFF',
     },
-    container_outro_valor: {
+    container_outro: {
         margin: metrics.padding,
-        backgroundColor: colors.cinza,
-        borderRadius: 20,
         padding: metrics.padding,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.secundaria,
+        height: 200,
+        borderRadius: 20,
     },
     container_zerar: {
         margin: metrics.padding,
@@ -199,13 +221,13 @@ const styles = StyleSheet.create({
         fontSize: 15,
         padding: 5,
         borderWidth: 0,
-        height: 55,
+        height: 50,
         borderRadius: 10.5,
         marginVertical: 5,
-        width: 300,
+        width: widthS - (2*metrics.double_padding),
         justifyContent: 'center',
-        backgroundColor: colors.primaria,
-        color: 'white'
+        backgroundColor: colors.cinza,
+        color: colors.secundaria
     },
     icon: {
         fontSize: font.icon_list,

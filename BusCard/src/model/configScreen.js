@@ -50,7 +50,7 @@ export default class configScreen extends Component<Props> {
                     </View>
 
                     <View style={styles.configuracoes}>
-                        <ItemList
+                        {/* <ItemList
                             icon={"ios-cash"}
                             onPress={() => {
                                 this.props.navigation.navigate('precosScreen', {
@@ -65,7 +65,7 @@ export default class configScreen extends Component<Props> {
                                     onGoBack: () => this.refresh(),
                                 });
                             }}
-                        > Recarregar </ItemList>
+                        > Recarregar </ItemList> */}
                         <ItemList
                             onPress={() => {
                                 this.props.navigation.navigate('usScreen');
