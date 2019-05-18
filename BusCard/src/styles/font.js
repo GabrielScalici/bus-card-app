@@ -11,6 +11,8 @@ export default{
 
     header: 26,
 
+    title: 35,
+
     ds_label: 12,
 
     item_list: 20,

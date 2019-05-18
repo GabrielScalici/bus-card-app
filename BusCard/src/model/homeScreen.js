@@ -28,15 +28,27 @@ export default class homeScreen extends Component<Props> {
             valor: 0,
             pago: 0,
             aux: 0,
+            data: '',
+            data_usado: '',
+            data_voltar: '',
         };
     }
 
     componentDidMount() {
         const { navigation } = this.props;
-        
+
         this.focusListener = navigation.addListener("didFocus", () => {
             this.forceUpdate();
         });
+
+        //DATA
+        let day = new Date().getDate();
+        let month = new Date().getMonth() + 1;
+        let year = new Date().getFullYear();
+        let hours = new Date().getHours();
+        let min = new Date().getMinutes();
+        let date = day + '/' + month + '/' + year + ' às ' + hours + ':' + min;
+        this.setState({ data: date });
 
 
         AsyncStorage.getItem('@SALDO').then((value) => {
@@ -53,6 +65,14 @@ export default class homeScreen extends Component<Props> {
             } else {
                 this.setState({ pago: 0 });
             }
+        });
+
+        AsyncStorage.getItem('@DATA_USADO').then((value) => {
+            this.setState({ data_usado: value });
+        });
+
+        AsyncStorage.getItem('@DATA_VOLTAR').then((value) => {
+            this.setState({ data_voltar: value });
         });
     }
 
@@ -71,6 +91,14 @@ export default class homeScreen extends Component<Props> {
             } else {
                 this.setState({ pago: 0 });
             }
+        });
+
+        AsyncStorage.getItem('@DATA_USADO').then((value) => {
+            this.setState({ data_usado: value });
+        });
+
+        AsyncStorage.getItem('@DATA_VOLTAR').then((value) => {
+            this.setState({ data_voltar: value });
         });
     }
 
@@ -102,59 +130,64 @@ export default class homeScreen extends Component<Props> {
                         </Animatable.View>
 
 
+                        <View style={styles.container_btns}>
+                            <Text style={styles.txt_ds_valor}> Usar passagem </Text>
+                            <View style={styles.btn_default}>
+                                <Animatable.View animation="fadeInLeftBig" interationCount={1}>
+                                    <ButtonDefault
+                                        onPress={() => {
+                                            Alert.alert(
+                                                'Voltar uma passagem?',
+                                                'Você irá voltar o valor de uma passagem',
+                                                [
+                                                    {
+                                                        text: 'Cancelar', onPress: () => {
 
-                        <Text style={styles.txt_ds_valor}> Usar passagem </Text>
-                        <View style={styles.btn_default}>
-                            <Animatable.View animation="fadeInLeftBig" interationCount={1}>
-                                <ButtonDefault
-                                    onPress={() => {
-                                        Alert.alert(
-                                            'Voltar uma passagem?',
-                                            'Você irá voltar o valor de uma passagem',
+                                                        }, style: 'cancel'
+                                                    },
+                                                    {
+                                                        text: 'OK', onPress: () => {
+                                                            if (this.state.pago != 0) {
+                                                                var total = (this.state.valor) + (this.state.pago);
+                                                                this.setState({ valor: total });
+                                                                AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                                                                AsyncStorage.setItem('@DATA_VOLTAR', this.state.data);
+                                                                this.setState({ data_voltar: this.state.data })
+                                                            }
+                                                        }
+                                                    },
+                                                ],
+                                                { cancelable: false }
+                                            )
+                                        }
+                                        }
+                                    > Voltar </ButtonDefault>
+                                </Animatable.View>
+                                <Animatable.View animation="fadeInRightBig" interationCount={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                    <ButtonDefault
+                                        onPress={() => Alert.alert(
+                                            'Usar uma passagem?',
+                                            'Você irá gastar o valor de uma passagem',
                                             [
-                                                {
-                                                    text: 'Cancelar', onPress: () => {
-
-                                                    }, style: 'cancel'
-                                                },
+                                                { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
                                                 {
                                                     text: 'OK', onPress: () => {
-                                                        if (this.state.pago != 0) {
-                                                            var total = (this.state.valor) + (this.state.pago);
+                                                        if (this.state.valor != 0) {
+                                                            var total = (this.state.valor) - (this.state.pago);
                                                             this.setState({ valor: total });
                                                             AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
+                                                            AsyncStorage.setItem('@DATA_USADO', this.state.data);
+                                                            this.setState({ data_usado: this.state.data })
                                                         }
                                                     }
                                                 },
                                             ],
                                             { cancelable: false }
                                         )
-                                    }
-                                    }
-                                > Voltar </ButtonDefault>
-                            </Animatable.View>
-                            <Animatable.View animation="fadeInRightBig" interationCount={1} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <ButtonDefault
-                                    onPress={() => Alert.alert(
-                                        'Usar uma passagem?',
-                                        'Você irá gastar o valor de uma passagem',
-                                        [
-                                            { text: 'Cancelar', onPress: () => { }, style: 'cancel' },
-                                            {
-                                                text: 'OK', onPress: () => {
-                                                    if (this.state.valor != 0) {
-                                                        var total = (this.state.valor) - (this.state.pago);
-                                                        this.setState({ valor: total });
-                                                        AsyncStorage.setItem('@SALDO', JSON.stringify(this.state.valor));
-                                                    }
-                                                }
-                                            },
-                                        ],
-                                        { cancelable: false }
-                                    )
-                                    }
-                                > Usar </ButtonDefault>
-                            </Animatable.View>
+                                        }
+                                    > Usar </ButtonDefault>
+                                </Animatable.View>
+                            </View>
                         </View>
                         <Animatable.View animation="fadeInUpBig" interationCount={1}>
                             <TouchableOpacity
@@ -171,6 +204,17 @@ export default class homeScreen extends Component<Props> {
                                     <Text style={styles.txt_ds_valor}> Clique para alterar o preço </Text>
                                 </View>
                             </TouchableOpacity>
+                        </Animatable.View>
+
+                        <Animatable.View animation="fadeInUpBig" interationCount={1} style={styles.container_history}>
+                            <Text style={styles.title}> Histórico </Text>
+
+                            <Text style={styles.txt_ds_valor}> Última passagem utilizada em: </Text>
+                            <Text style={styles.txt_ds_valor}> {this.state.data_usado} </Text>
+
+                            <Text style={styles.txt_ds_valor}> Última passagem retornada em: </Text>
+                            <Text style={styles.txt_ds_valor}> {this.state.data_voltar} </Text>
+
                         </Animatable.View>
 
                     </ScrollView>
@@ -194,6 +238,15 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 20,
     },
+    container_btns: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: metrics.padding
+    },
+    container_history: {
+        padding: metrics.padding,
+
+    },
     txt_ds_valor: {
         fontSize: font.ds_label,
         color: colors.primaria,
@@ -212,6 +265,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
 
+    },
+    title: {
+        fontSize: font.title,
+        fontFamily: 'System',
+        color: colors.primaria,
     },
     safeArea: {
         flex: 1,

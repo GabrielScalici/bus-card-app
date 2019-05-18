@@ -101,7 +101,7 @@ export default class precosScreen extends Component<Props> {
                                         autoFocus
                                         onChangeText={aux => {
                                             if (isNaN(aux)) {
-                                                Alert.alert('Ops...', "Digite somente números e ponto ou vírgula");
+                                                Alert.alert('Ops...', "Digite somente números e ponto");
                                             } else {
                                                 aux = parseFloat(aux.replace(',', '.'))
                                                 this.setState({ valor_digitado: aux })
