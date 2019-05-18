@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, AsyncStorage, StatusBar, SafeAreaView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { withNavigationFocus } from "react-navigation";
+import Icon from 'react-native-vector-icons/Ionicons';
 
 //MEDIDAS
 import { metrics, font, colors } from '../styles';
@@ -17,6 +18,7 @@ import { metrics, font, colors } from '../styles';
 import Header from '../components/Header';
 import ItemList from '../components/ItemList';
 import ButtonDefault from '../components/ButtonDefault';
+//import { Icon } from 'react-native-elements';
 
 type Props = {};
 export default class homeScreen extends Component<Props> {
@@ -207,13 +209,19 @@ export default class homeScreen extends Component<Props> {
                         </Animatable.View>
 
                         <Animatable.View animation="fadeInUpBig" interationCount={1} style={styles.container_history}>
-                            <Text style={styles.title}> Histórico </Text>
 
-                            <Text style={styles.txt_ds_valor}> Última passagem utilizada em: </Text>
-                            <Text style={styles.txt_ds_valor}> {this.state.data_usado} </Text>
+                            <View style={{ flexDirection: "row", alignItems: 'center'}}>
+                                <Icon name={"ios-time"} color={colors.primaria} size={font.title} />
+                                <Text style={styles.title}> Histórico </Text>
+                            </View>
 
-                            <Text style={styles.txt_ds_valor}> Última passagem retornada em: </Text>
-                            <Text style={styles.txt_ds_valor}> {this.state.data_voltar} </Text>
+                            <View style={{padding: metrics.double_padding, }}>
+                                <Text style={styles.txt_ds_data}> Última passagem utilizada em: </Text>
+                                <Text style={styles.txt_ds_data}> {this.state.data_usado} </Text>
+
+                                <Text style={styles.txt_ds_data}> Última passagem retornada em: </Text>
+                                <Text style={styles.txt_ds_data}> {this.state.data_voltar} </Text>
+                            </View>
 
                         </Animatable.View>
 
@@ -249,6 +257,10 @@ const styles = StyleSheet.create({
     },
     txt_ds_valor: {
         fontSize: font.ds_label,
+        color: colors.primaria,
+    },
+    txt_ds_data:{
+        fontSize: font.text,
         color: colors.primaria,
     },
     txt_valor: {

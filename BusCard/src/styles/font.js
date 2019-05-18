@@ -12,6 +12,7 @@ export default{
     header: 26,
 
     title: 35,
+    text: 20,
 
     ds_label: 12,
 
