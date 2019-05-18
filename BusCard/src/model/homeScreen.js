@@ -215,11 +215,11 @@ export default class homeScreen extends Component<Props> {
                                 <Text style={styles.title}> Histórico </Text>
                             </View>
 
-                            <View style={{padding: metrics.double_padding, }}>
-                                <Text style={styles.txt_ds_data}> Última passagem utilizada em: </Text>
+                            <View style={{padding: metrics.padding, }}>
+                                <Text style={styles.txt_ds_valor}> Última passagem utilizada em: </Text>
                                 <Text style={styles.txt_ds_data}> {this.state.data_usado} </Text>
 
-                                <Text style={styles.txt_ds_data}> Última passagem retornada em: </Text>
+                                <Text style={styles.txt_ds_valor}> Última passagem retornada em: </Text>
                                 <Text style={styles.txt_ds_data}> {this.state.data_voltar} </Text>
                             </View>
 
